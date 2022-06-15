@@ -1,5 +1,7 @@
 const Planet = require("../models/Planet");
 const Satelite = require("../models/satellite")
+const Spaceship = require("../models/spaceship")
+const Cap = require("../models/Cap")
 
 //Associação Has One or One to One
 
@@ -16,6 +18,7 @@ Satelite.belongsTo(Planet, {
 
 //Associação Has Many or One to Many
 
+
 Planet.hasMany(Satelite, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE"
@@ -25,4 +28,17 @@ Satelite.belongsTo(Planet, {
     as: "planet"
 });
 
-module.exports = {Planet, Satelite};
+
+//Associação Many to Many - Uma associação One to Many só que dois dois lados.
+
+Cap.belongsToMany(Spaceship, {
+    foreingKey: "capId",
+    through: "capSpaceship",
+    as: "spaceships"
+});
+
+Spaceship.belongsToMany(Cap, {
+    foreingKey: "spaceshipId",
+    through: "capSpaceship",
+    as: "caps",
+})
